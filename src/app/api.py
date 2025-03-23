@@ -2,9 +2,10 @@ from datetime import datetime
 from fastapi import FastAPI, UploadFile, File
 
 from .schemas import RecognizeResponse
+from actions import lifespan
 
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 
 started_time = datetime.now()
