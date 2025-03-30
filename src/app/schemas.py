@@ -1,6 +1,22 @@
 from pydantic import BaseModel, Field
 
 
+class AuthorBase(BaseModel):
+    """
+        Base class for author.
+    """
+    name: str
+    
+    
+class SongBase(BaseModel):
+    """
+        Base class for song.
+    """
+    title: str = Field(..., min_length=1, max_length=255)
+    album: str | None = Field(..., min_length=1, max_length=255)
+    author_id: int
+
+
 class RecognizeResponse(BaseModel):
     """
         Response to recognize request.

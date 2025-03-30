@@ -1,8 +1,10 @@
 from datetime import datetime
+from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import FastAPI, UploadFile, File
 
 from .schemas import RecognizeResponse
 from actions import lifespan
+from database import get_async_db_session
 
 
 app = FastAPI(lifespan=lifespan)
@@ -18,8 +20,10 @@ async def main() -> dict:
 
 @app.post('/recognize', response_model=RecognizeResponse)
 async def recognize(
-    audio: UploadFile = File(media_type='audio/wav')
+    async_db_session: get_async_db_session,
+    audio_file: UploadFile = File(media_type='audio/wav'),
 ) -> RecognizeResponse:
+    
     return RecognizeResponse(
         title=None, album=None, author=None,
         url=None, recognized=False)

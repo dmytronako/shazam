@@ -23,3 +23,9 @@ class SongTable(Base):
     album: Mapped[str] = mapped_column(VARCHAR(256), nullable=True)
     author_id: Mapped[str] = mapped_column(ForeignKey('authors.author_id'))
     author: Mapped[AuthorTable] = relationship(back_populates='songs')
+    
+    
+class HashedSongsTable(Base):
+    hash: Mapped[int] = mapped_column(Integer(), nullable=False)
+    song_id: Mapped[int] = mapped_column(ForeignKey('songs.song_id'), nullable=False)
+    song: Mapped[SongTable] = relationship()

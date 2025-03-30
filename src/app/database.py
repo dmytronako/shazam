@@ -1,9 +1,10 @@
-from typing import Generator, AsyncGenerator
+from typing import Annotated, Generator, AsyncGenerator
 import sqlalchemy.exc as sqlalchemy_exc
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.ext.asyncio.session import AsyncSession
+from fastapi import Depends
 
 from config import settings
 from tables import Base
@@ -38,3 +39,8 @@ async def async_db_session() -> AsyncGenerator[AsyncSession]:
 
 def init_db():
     Base.metadata.create_all(sync_engine)
+
+
+get_db_session = Annotated[Session, Depends(db_session)]
+
+get_async_db_session = Annotated[AsyncSession, Depends(async_db_session)]
